@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: online-inference-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: online-inference-pod
+  template:
+    metadata:
+      name: online-inference-pod
+      labels:
+        app: online-inference-pod
+    spec:
+      containers:
+      - name: online-inference
+        image: yessen3103/online_inference
+        ports:
+        - containerPort: 80

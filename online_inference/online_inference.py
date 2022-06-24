@@ -1,3 +1,5 @@
+import time
+
 from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
@@ -110,8 +112,13 @@ PARAMS, MODEL, ENC = initialize_service_features()
 
 app = FastAPI()
 
+time.sleep(20)
+start_time = time.time()
+
 @app.get("/health/", status_code=200)
 async def check_service_ready():
+    if time.time() - start_time > 60:
+        raise RuntimeError("App stopped working")
     return "App is ready for working"
 
 @app.post("/predict/")
